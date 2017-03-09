@@ -47,6 +47,7 @@ public class LoginPage extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
+        setPreferredSize(new java.awt.Dimension(640, 480));
 
         jPanel1.setBackground(java.awt.Color.cyan);
         jPanel1.setLayout(new java.awt.GridLayout(2, 0));
@@ -66,15 +67,18 @@ public class LoginPage extends javax.swing.JFrame {
         jPanel2.setBackground(java.awt.Color.pink);
         jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 40, 20));
 
+        btn_login.setBackground(java.awt.Color.yellow);
         btn_login.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btn_login.setText("Login");
         jPanel2.add(btn_login);
 
+        btn_clear.setBackground(java.awt.Color.yellow);
         btn_clear.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btn_clear.setText("Clear Fields");
         jPanel2.add(btn_clear);
 
-        btn_viewEmployees.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btn_viewEmployees.setBackground(java.awt.Color.orange);
+        btn_viewEmployees.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
         btn_viewEmployees.setText("View Employees");
         jPanel2.add(btn_viewEmployees);
 
