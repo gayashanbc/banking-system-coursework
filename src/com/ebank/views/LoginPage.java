@@ -80,18 +80,20 @@ public class LoginPage extends javax.swing.JFrame {
         btn_viewEmployees.setBackground(java.awt.Color.orange);
         btn_viewEmployees.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
         btn_viewEmployees.setText("View Employees");
+        btn_viewEmployees.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_viewEmployeesActionPerformed(evt);
+            }
+        });
         jPanel2.add(btn_viewEmployees);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
-        jPanel3.setBackground(java.awt.Color.white);
         jPanel3.setLayout(new java.awt.GridLayout(4, 1, 0, 20));
 
-        jPanel4.setBackground(java.awt.Color.white);
         jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 0));
         jPanel3.add(jPanel4);
 
-        jPanel5.setBackground(java.awt.Color.white);
         jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 15, 5));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
@@ -111,7 +113,6 @@ public class LoginPage extends javax.swing.JFrame {
 
         jPanel3.add(jPanel5);
 
-        jPanel6.setBackground(java.awt.Color.white);
         jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 15, 5));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
@@ -126,7 +127,6 @@ public class LoginPage extends javax.swing.JFrame {
 
         jPanel3.add(jPanel6);
 
-        jPanel7.setBackground(java.awt.Color.white);
         jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
         jPanel3.add(jPanel7);
 
@@ -138,6 +138,11 @@ public class LoginPage extends javax.swing.JFrame {
     private void txt_usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_usernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_usernameActionPerformed
+
+    private void btn_viewEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_viewEmployeesActionPerformed
+        this.dispose();
+        new EmployeePage().setVisible(true);
+    }//GEN-LAST:event_btn_viewEmployeesActionPerformed
 
     /**
      * @param args the command line arguments
