@@ -5,11 +5,20 @@
  */
 package com.ebank.views;
 
+import com.ebank.controllers.EmployeePageController;
+import static com.ebank.main.CommonFunctions.showMsg;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 /**
  *
  * @author Shan
  */
 public class EmployeePage extends javax.swing.JFrame {
+
+    private DefaultTableModel employeeTableModel;
+    private EmployeePageController controller;
 
     /**
      * Creates new form EmployeePage
@@ -17,6 +26,8 @@ public class EmployeePage extends javax.swing.JFrame {
     public EmployeePage() {
         initComponents();
         setLocationRelativeTo(null);
+        employeeTableModel = (DefaultTableModel) jtb_employeeList.getModel();
+        controller = new EmployeePageController();
     }
 
     /**
@@ -38,7 +49,7 @@ public class EmployeePage extends javax.swing.JFrame {
         btn_delete = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtb_employeeList = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Employee Page");
@@ -75,6 +86,11 @@ public class EmployeePage extends javax.swing.JFrame {
         btn_add.setBackground(java.awt.Color.yellow);
         btn_add.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btn_add.setText("Add");
+        btn_add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_addActionPerformed(evt);
+            }
+        });
         jPanel2.add(btn_add);
 
         btn_edit.setBackground(java.awt.Color.yellow);
@@ -85,26 +101,32 @@ public class EmployeePage extends javax.swing.JFrame {
         btn_delete.setBackground(java.awt.Color.yellow);
         btn_delete.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btn_delete.setText("Delete");
+        btn_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_deleteActionPerformed(evt);
+            }
+        });
         jPanel2.add(btn_delete);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
         jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 10));
 
-        jTable1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtb_employeeList.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jtb_employeeList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {1, "Gayashan Bombuwala"},
+                {2, "Gayashan Bombuwala"},
+                {3, "Gayashan Bombuwala"},
+                {4, "Gayashan Bombuwala"},
+                {5, "Gayashan Bombuwala"}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "#", "Employee Name"
             }
         ));
-        jTable1.setName("Employee List"); // NOI18N
-        jScrollPane1.setViewportView(jTable1);
+        jtb_employeeList.setName("Employee List"); // NOI18N
+        jScrollPane1.setViewportView(jtb_employeeList);
 
         jPanel3.add(jScrollPane1);
 
@@ -117,6 +139,14 @@ public class EmployeePage extends javax.swing.JFrame {
         this.dispose();
         new LoginPage().setVisible(true);
     }//GEN-LAST:event_btn_goBackActionPerformed
+
+    private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
+        employeeTableModel.addRow(new Object[]{employeeTableModel.getRowCount() + 1, "Dayan Mayantha"});
+    }//GEN-LAST:event_btn_addActionPerformed
+
+    private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
+        deleteEmployee();
+    }//GEN-LAST:event_btn_deleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -153,6 +183,25 @@ public class EmployeePage extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Delete a record from the employee table model
+     */
+    private void deleteEmployee() {
+        if (jtb_employeeList.getSelectedRowCount() > 1) { // reject multiple rows
+            showMsg(1, "Operation denied", "Please select only one row at a time");
+        } else if (jtb_employeeList.getSelectedRowCount() == 0) { // reject NULL selection
+            showMsg(2, "Operation denied", "No rows have been selected");
+        } else {
+            int employeeId = (int) employeeTableModel.getValueAt(jtb_employeeList.getSelectedRow(), 0);
+            if (controller.syncEmployeeDeleteOperation(employeeId)) {
+                employeeTableModel.removeRow(jtb_employeeList.getSelectedRow());
+                showMsg(0, "Operation successful", "Employee record deleted");
+            } else {
+                showMsg(2, "Operation failed", "Unable to delete the record");
+            }
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_add;
     private javax.swing.JButton btn_delete;
@@ -164,6 +213,6 @@ public class EmployeePage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jtb_employeeList;
     // End of variables declaration//GEN-END:variables
 }
