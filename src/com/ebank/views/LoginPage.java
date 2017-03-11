@@ -121,6 +121,11 @@ public class LoginPage extends javax.swing.JFrame {
         txt_username.setColumns(10);
         txt_username.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         txt_username.setMinimumSize(new java.awt.Dimension(50, 35));
+        txt_username.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_usernameActionPerformed(evt);
+            }
+        });
         jPanel5.add(txt_username);
 
         jPanel3.add(jPanel5);
@@ -135,6 +140,11 @@ public class LoginPage extends javax.swing.JFrame {
 
         txt_password.setColumns(10);
         txt_password.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        txt_password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_passwordActionPerformed(evt);
+            }
+        });
         jPanel6.add(txt_password);
 
         jPanel3.add(jPanel6);
@@ -160,6 +170,14 @@ public class LoginPage extends javax.swing.JFrame {
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
         login();
     }//GEN-LAST:event_btn_loginActionPerformed
+
+    private void txt_usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_usernameActionPerformed
+        login();
+    }//GEN-LAST:event_txt_usernameActionPerformed
+
+    private void txt_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_passwordActionPerformed
+        login();
+    }//GEN-LAST:event_txt_passwordActionPerformed
 
     /**
      * @param args the command line arguments
@@ -196,6 +214,9 @@ public class LoginPage extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Check validity of entered credentials
+     */
     private void login() {
         String username = txt_username.getText();
         String password = String.copyValueOf(txt_password.getPassword());
@@ -204,10 +225,10 @@ public class LoginPage extends javax.swing.JFrame {
             if (controller.checkLogin(username, password)) {
                 new CustomerPage().setVisible(true);
                 this.dispose();
-            } else {
+            } else { // invalid credentials
                 showMsg(2, 2, "Invalid username or password");
             }
-        } else {
+        } else { // empty field check
             showMsg(1, 1, "Both fields are requuired!");
         }
     }

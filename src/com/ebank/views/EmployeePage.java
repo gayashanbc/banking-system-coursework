@@ -126,14 +126,41 @@ public class EmployeePage extends javax.swing.JFrame {
         jtb_employeeList.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jtb_employeeList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {1, "Gayashan Bombuwala"},
-                {2, "Gayashan Bombuwala"},
-                {3, "Gayashan Bombuwala"},
-                {4, "Gayashan Bombuwala"},
-                {5, "Gayashan Bombuwala"}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "#", "Employee Name"
+                "#", "Name"
             }
         ));
         jtb_employeeList.setName("Employee List"); // NOI18N
