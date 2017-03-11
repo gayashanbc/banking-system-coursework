@@ -5,8 +5,7 @@
  */
 package com.ebank.views;
 
-import com.ebank.controllers.EmployeePageController;
-import com.ebank.main.CommonFunctions;
+import com.ebank.controllers.EmployeeFormController;
 import static com.ebank.main.CommonFunctions.showMsg;
 
 /**
@@ -15,20 +14,28 @@ import static com.ebank.main.CommonFunctions.showMsg;
  */
 public class EmployeeForm extends javax.swing.JFrame {
 
-    private EmployeePageController controller;
+    private EmployeeFormController controller;
 
     /**
-     * Creates new form EmployeeForm
+     * Default constructor (for add operation)
      */
-    public EmployeeForm(String operation) {
+    public EmployeeForm() {
         initComponents();
-        this.setTitle(operation + " employee");
-        btn_operation.setText(operation);
-        if (operation.equals("Add")) {
-            txt_employeeId.setText("N/A");
-        }
+        customizelayout();
         setLocationRelativeTo(null);
-        controller = new EmployeePageController();
+        controller = new EmployeeFormController();
+    }
+
+    /**
+     * Overloaded constructor for edit operation
+     *
+     * @param employeeId optional parameter (default = 0)
+     */
+    public EmployeeForm(int employeeId) {
+        initComponents();
+        customizelayout(employeeId);
+        setLocationRelativeTo(null);
+        controller = new EmployeeFormController();
     }
 
     /**
@@ -211,8 +218,15 @@ public class EmployeeForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_cancelActionPerformed
 
     private void btn_operationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_operationActionPerformed
+        doOperation();
+    }//GEN-LAST:event_btn_operationActionPerformed
+
+    /**
+     * Perform add/edit operation
+     */
+    private void doOperation() {
         int employeeId = 0;
-        try {
+        try { // if employeeId is not an int value
             employeeId = Integer.parseInt(txt_employeeId.getText());
         } catch (Exception e) {
             employeeId = 0;
@@ -222,6 +236,7 @@ public class EmployeeForm extends javax.swing.JFrame {
         String username = txt_username.getText();
         String password = txt_password.getText();
 
+        // check for empty fields
         if (!name.equals("") && !position.equals("") && !username.equals("") && !password.equals("")) {
             if (controller.syncEmployeeAddEditOperation(employeeId, name, position, username, password)) {
                 showMsg(0, 0, "Record successfully added/edited");
@@ -232,41 +247,31 @@ public class EmployeeForm extends javax.swing.JFrame {
         } else {
             showMsg(1, 1, "Please make sure you have filled all the fields");
         }
-    }//GEN-LAST:event_btn_operationActionPerformed
+    }
 
     /**
-     * @param args the command line arguments
+     * Customize layout according to add operation
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EmployeeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EmployeeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EmployeeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EmployeeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void customizelayout() {
+        this.setTitle("Add new employee");
+        btn_operation.setText("Add");
+        txt_employeeId.setText("N/A");
+    }
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new EmployeeForm("").setVisible(true);
-            }
-        });
+    /**
+     * Customize layout according to edit operation
+     *
+     * @param employeeId employeeId of the record that needs to be edited
+     */
+    private void customizelayout(int employeeId) {
+        this.setTitle("Edit employee");
+        btn_operation.setText("Edit");
+        String[] employeeData = {"8", "Gayashan Kalhara", "Manager", "gayashanbc", "1128"};
+        txt_employeeId.setText(employeeData[0]);
+        txt_name.setText(employeeData[1]);
+        txt_position.setText(employeeData[2]);
+        txt_username.setText(employeeData[3]);
+        txt_password.setText(employeeData[4]);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -8,7 +8,11 @@ package com.ebank.views;
 import com.ebank.controllers.EmployeePageController;
 import static com.ebank.main.CommonFunctions.showMsg;
 import static com.ebank.main.CommonFunctions.isValidRowSelection;
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -29,6 +33,7 @@ public class EmployeePage extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         employeeTableModel = (DefaultTableModel) jtb_employeeList.getModel();
         controller = new EmployeePageController();
+        refreshEmployeeRecords();
     }
 
     /**
@@ -147,7 +152,7 @@ public class EmployeePage extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_goBackActionPerformed
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
-        new EmployeeForm("Add").setVisible(true);
+        new EmployeeForm().setVisible(true);
     }//GEN-LAST:event_btn_addActionPerformed
 
     private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
@@ -155,7 +160,7 @@ public class EmployeePage extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_deleteActionPerformed
 
     private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
-        new EmployeeForm("Edit").setVisible(true);
+        prepareEditEmployee();
     }//GEN-LAST:event_btn_editActionPerformed
 
     /**
@@ -205,6 +210,29 @@ public class EmployeePage extends javax.swing.JFrame {
             } else {
                 showMsg(2, 2, "Unable to delete the record");
             }
+        }
+    }
+
+    /**
+     * Prepare a record to be edited from the table
+     */
+    private void prepareEditEmployee() {
+        if (isValidRowSelection(jtb_employeeList)) {
+            int employeeId = (int) employeeTableModel.getValueAt(jtb_employeeList.getSelectedRow(), 0);
+            new EmployeeForm(employeeId).setVisible(true);
+        }
+    }
+
+    /**
+     * Synchronize current employee data from the web service
+     */
+    private void refreshEmployeeRecords() {
+        String[][] employeeObjects = controller.getEmployeesData();
+        for (String[] employeeObject : employeeObjects) {
+            Object[] test = new Object[2];
+            test[0] = Integer.parseInt(employeeObject[0]);
+            test[1] = employeeObject[1];
+            employeeTableModel.addRow(test);
         }
     }
 

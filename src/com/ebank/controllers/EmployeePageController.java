@@ -31,18 +31,31 @@ public class EmployeePageController {
     }
 
     /**
-     * Synchronize added/edited employee record with the web service
+     * Get data of all the employees from the web service
      *
-     * @param employeeId employeeId of the existing employee
-     * @param name name of the new/existing employee
-     * @param position position of the new/existing employee
-     * @param username username of the new/existing employee
-     * @param password password of the new/existing employee
-     * @return result of the operation
+     * @return employees data records
      */
-    public boolean syncEmployeeAddEditOperation(int employeeId, String name, String position, String username, String password) {
-        boolean isOperationSuccess = true;
-        return isOperationSuccess;
+    public String[][] getEmployeesData() {
+        String[][] employeesData = new String[3][5];
+        employeesData[0][0] = 1 + "";
+        employeesData[0][1] = "Gayashan Bombuwala";
+        employeesData[0][2] = "Project Manager";
+        employeesData[0][3] = "gayashanbc";
+        employeesData[0][4] = "1128";
+
+        employeesData[1][0] = 2 + "";
+        employeesData[1][1] = "Mewantha Bandara";
+        employeesData[1][2] = "Scrum Master";
+        employeesData[1][3] = "mewa.bandara";
+        employeesData[1][4] = "rgrg";
+
+        employeesData[2][0] = 3 + "";
+        employeesData[2][1] = "Achintha Premarathne";
+        employeesData[2][2] = "Technical Lead";
+        employeesData[2][3] = "achinthaprem";
+        employeesData[2][4] = "11ththt28";
+
+        return employeesData;
     }
 
 }
