@@ -96,6 +96,11 @@ public class EmployeePage extends javax.swing.JFrame {
         btn_edit.setBackground(java.awt.Color.yellow);
         btn_edit.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btn_edit.setText("Edit");
+        btn_edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_editActionPerformed(evt);
+            }
+        });
         jPanel2.add(btn_edit);
 
         btn_delete.setBackground(java.awt.Color.yellow);
@@ -141,12 +146,16 @@ public class EmployeePage extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_goBackActionPerformed
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
-        employeeTableModel.addRow(new Object[]{employeeTableModel.getRowCount() + 1, "Dayan Mayantha"});
+        new EmployeeForm("Add").setVisible(true);
     }//GEN-LAST:event_btn_addActionPerformed
 
     private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
         deleteEmployee();
     }//GEN-LAST:event_btn_deleteActionPerformed
+
+    private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
+        new EmployeeForm("Edit").setVisible(true);
+    }//GEN-LAST:event_btn_editActionPerformed
 
     /**
      * @param args the command line arguments
@@ -188,16 +197,16 @@ public class EmployeePage extends javax.swing.JFrame {
      */
     private void deleteEmployee() {
         if (jtb_employeeList.getSelectedRowCount() > 1) { // reject multiple rows
-            showMsg(1, "Operation denied", "Please select only one row at a time");
+            showMsg(1, 1, "Please select only one row at a time");
         } else if (jtb_employeeList.getSelectedRowCount() == 0) { // reject NULL selection
-            showMsg(2, "Operation denied", "No rows have been selected");
+            showMsg(2, 1, "No rows have been selected");
         } else {
             int employeeId = (int) employeeTableModel.getValueAt(jtb_employeeList.getSelectedRow(), 0);
             if (controller.syncEmployeeDeleteOperation(employeeId)) {
                 employeeTableModel.removeRow(jtb_employeeList.getSelectedRow());
-                showMsg(0, "Operation successful", "Employee record deleted");
+                showMsg(0, 0, "Employee record deleted");
             } else {
-                showMsg(2, "Operation failed", "Unable to delete the record");
+                showMsg(2, 2, "Unable to delete the record");
             }
         }
     }

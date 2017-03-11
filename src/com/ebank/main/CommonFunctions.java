@@ -21,7 +21,21 @@ public class CommonFunctions {
      * @param title title of the message box
      * @param message message needed to be displayed
      */
-    public static void showMsg(int iconType, String title, String message) {
+    public static void showMsg(int iconType, int titleType, String message) {
+        String title = "";
+        
+        switch(titleType){
+        case 1:
+            title="Opeation denied";
+            break;
+            case 2:
+            title="Opeation failed";
+            break;
+            default:
+            title="Opeation successful";
+            break;
+        }
+        
         switch (iconType) {
             case 1: // error
                 JOptionPane.showMessageDialog(null, message, title, JOptionPane.WARNING_MESSAGE);
