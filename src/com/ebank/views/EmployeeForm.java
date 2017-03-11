@@ -7,6 +7,7 @@ package com.ebank.views;
 
 import com.ebank.controllers.EmployeeFormController;
 import static com.ebank.main.CommonFunctions.showMsg;
+import java.util.Arrays;
 
 /**
  *
@@ -234,7 +235,7 @@ public class EmployeeForm extends javax.swing.JFrame {
         String name = txt_name.getText();
         String position = txt_position.getText();
         String username = txt_username.getText();
-        String password = txt_password.getText();
+        String password = Arrays.toString(txt_password.getPassword());
 
         // check for empty fields
         if (!name.equals("") && !position.equals("") && !username.equals("") && !password.equals("")) {

@@ -91,6 +91,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Login"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_loginActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_clear">
           <Properties>
@@ -102,6 +105,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Clear Fields"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_clearActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_viewEmployees">
           <Properties>
@@ -166,9 +172,6 @@
                   <Dimension value="[50, 35]"/>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_usernameActionPerformed"/>
-              </Events>
             </Component>
           </SubComponents>
         </Container>

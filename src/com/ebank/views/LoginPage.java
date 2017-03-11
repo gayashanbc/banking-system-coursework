@@ -5,11 +5,17 @@
  */
 package com.ebank.views;
 
+import com.ebank.controllers.LoginPageController;
+import static com.ebank.main.CommonFunctions.showMsg;
+import java.util.Arrays;
+
 /**
  *
  * @author Shan
  */
 public class LoginPage extends javax.swing.JFrame {
+
+    private LoginPageController controller;
 
     /**
      * Creates new form LoginPage
@@ -17,6 +23,7 @@ public class LoginPage extends javax.swing.JFrame {
     public LoginPage() {
         initComponents();
         setLocationRelativeTo(null);
+        controller = new LoginPageController();
     }
 
     /**
@@ -70,11 +77,21 @@ public class LoginPage extends javax.swing.JFrame {
         btn_login.setBackground(java.awt.Color.yellow);
         btn_login.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btn_login.setText("Login");
+        btn_login.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_loginActionPerformed(evt);
+            }
+        });
         jPanel2.add(btn_login);
 
         btn_clear.setBackground(java.awt.Color.yellow);
         btn_clear.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btn_clear.setText("Clear Fields");
+        btn_clear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_clearActionPerformed(evt);
+            }
+        });
         jPanel2.add(btn_clear);
 
         btn_viewEmployees.setBackground(java.awt.Color.orange);
@@ -104,11 +121,6 @@ public class LoginPage extends javax.swing.JFrame {
         txt_username.setColumns(10);
         txt_username.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         txt_username.setMinimumSize(new java.awt.Dimension(50, 35));
-        txt_username.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_usernameActionPerformed(evt);
-            }
-        });
         jPanel5.add(txt_username);
 
         jPanel3.add(jPanel5);
@@ -135,14 +147,19 @@ public class LoginPage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txt_usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_usernameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_usernameActionPerformed
-
     private void btn_viewEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_viewEmployeesActionPerformed
         this.dispose();
         new EmployeePage().setVisible(true);
     }//GEN-LAST:event_btn_viewEmployeesActionPerformed
+
+    private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
+        txt_username.setText("");
+        txt_password.setText("");
+    }//GEN-LAST:event_btn_clearActionPerformed
+
+    private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
+        login();
+    }//GEN-LAST:event_btn_loginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -179,6 +196,22 @@ public class LoginPage extends javax.swing.JFrame {
         });
     }
 
+    private void login() {
+        String username = txt_username.getText();
+        String password = String.copyValueOf(txt_password.getPassword());
+
+        if (!username.equals("") && !password.equals("")) {
+            if (controller.checkLogin(username, password)) {
+                new CustomerPage().setVisible(true);
+                this.dispose();
+            } else {
+                showMsg(2, 2, "Invalid username or password");
+            }
+        } else {
+            showMsg(1, 1, "Both fields are requuired!");
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_clear;
     private javax.swing.JButton btn_login;
@@ -197,4 +230,5 @@ public class LoginPage extends javax.swing.JFrame {
     private javax.swing.JPasswordField txt_password;
     private javax.swing.JTextField txt_username;
     // End of variables declaration//GEN-END:variables
+
 }
