@@ -7,6 +7,7 @@ package com.ebank.views;
 
 import com.ebank.controllers.EmployeePageController;
 import static com.ebank.main.CommonFunctions.showMsg;
+import static com.ebank.main.CommonFunctions.isValidRowSelection;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -196,11 +197,7 @@ public class EmployeePage extends javax.swing.JFrame {
      * Delete a record from the employee table model
      */
     private void deleteEmployee() {
-        if (jtb_employeeList.getSelectedRowCount() > 1) { // reject multiple rows
-            showMsg(1, 1, "Please select only one row at a time");
-        } else if (jtb_employeeList.getSelectedRowCount() == 0) { // reject NULL selection
-            showMsg(2, 1, "No rows have been selected");
-        } else {
+        if (isValidRowSelection(jtb_employeeList)) {
             int employeeId = (int) employeeTableModel.getValueAt(jtb_employeeList.getSelectedRow(), 0);
             if (controller.syncEmployeeDeleteOperation(employeeId)) {
                 employeeTableModel.removeRow(jtb_employeeList.getSelectedRow());

@@ -5,11 +5,17 @@
  */
 package com.ebank.views;
 
+import com.ebank.controllers.EmployeePageController;
+import com.ebank.main.CommonFunctions;
+import static com.ebank.main.CommonFunctions.showMsg;
+
 /**
  *
  * @author Shan
  */
 public class EmployeeForm extends javax.swing.JFrame {
+
+    private EmployeePageController controller;
 
     /**
      * Creates new form EmployeeForm
@@ -18,7 +24,11 @@ public class EmployeeForm extends javax.swing.JFrame {
         initComponents();
         this.setTitle(operation + " employee");
         btn_operation.setText(operation);
+        if (operation.equals("Add")) {
+            txt_employeeId.setText("N/A");
+        }
         setLocationRelativeTo(null);
+        controller = new EmployeePageController();
     }
 
     /**
@@ -43,7 +53,7 @@ public class EmployeeForm extends javax.swing.JFrame {
         txt_employeeId = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        txt_Name = new javax.swing.JTextField();
+        txt_name = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         txt_position = new javax.swing.JTextField();
@@ -78,11 +88,21 @@ public class EmployeeForm extends javax.swing.JFrame {
         btn_operation.setBackground(java.awt.Color.yellow);
         btn_operation.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btn_operation.setText("Operation");
+        btn_operation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_operationActionPerformed(evt);
+            }
+        });
         jPanel2.add(btn_operation);
 
         btn_cancel.setBackground(java.awt.Color.yellow);
         btn_cancel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btn_cancel.setText("Cancel");
+        btn_cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelActionPerformed(evt);
+            }
+        });
         jPanel2.add(btn_cancel);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
@@ -109,8 +129,9 @@ public class EmployeeForm extends javax.swing.JFrame {
         jLabel4.setText("Employee Id: ");
         jPanel5.add(jLabel4);
 
-        txt_employeeId.setColumns(10);
-        txt_employeeId.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        txt_employeeId.setColumns(9);
+        txt_employeeId.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
+        txt_employeeId.setEnabled(false);
         jPanel5.add(txt_employeeId);
 
         jPanel3.add(jPanel5);
@@ -122,9 +143,9 @@ public class EmployeeForm extends javax.swing.JFrame {
         jLabel5.setText("Name: ");
         jPanel6.add(jLabel5);
 
-        txt_Name.setColumns(10);
-        txt_Name.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jPanel6.add(txt_Name);
+        txt_name.setColumns(10);
+        txt_name.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jPanel6.add(txt_name);
 
         jPanel3.add(jPanel6);
 
@@ -185,6 +206,34 @@ public class EmployeeForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btn_cancelActionPerformed
+
+    private void btn_operationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_operationActionPerformed
+        int employeeId = 0;
+        try {
+            employeeId = Integer.parseInt(txt_employeeId.getText());
+        } catch (Exception e) {
+            employeeId = 0;
+        }
+        String name = txt_name.getText();
+        String position = txt_position.getText();
+        String username = txt_username.getText();
+        String password = txt_password.getText();
+
+        if (!name.equals("") && !position.equals("") && !username.equals("") && !password.equals("")) {
+            if (controller.syncEmployeeAddEditOperation(employeeId, name, position, username, password)) {
+                showMsg(0, 0, "Record successfully added/edited");
+                this.dispose();
+            } else {
+                showMsg(2, 2, "Something went wrong");
+            }
+        } else {
+            showMsg(1, 1, "Please make sure you have filled all the fields");
+        }
+    }//GEN-LAST:event_btn_operationActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -240,8 +289,8 @@ public class EmployeeForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JTextField txt_Name;
     private javax.swing.JTextField txt_employeeId;
+    private javax.swing.JTextField txt_name;
     private javax.swing.JPasswordField txt_password;
     private javax.swing.JTextField txt_position;
     private javax.swing.JTextField txt_username;
