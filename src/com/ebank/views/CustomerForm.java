@@ -5,18 +5,37 @@
  */
 package com.ebank.views;
 
+import com.ebank.controllers.CustomerFormController;
+import static com.ebank.main.CommonFunctions.showMsg;
+
 /**
  *
  * @author Shan
  */
 public class CustomerForm extends javax.swing.JFrame {
 
+    private CustomerFormController controller;
+
     /**
-     * Creates new form CustomerForm
+     * Default constructor (for add operation)
      */
     public CustomerForm() {
         initComponents();
         setLocationRelativeTo(null);
+        customizelayout();
+        controller = new CustomerFormController();
+    }
+
+    /**
+     * Overloaded constructor for edit operation
+     *
+     * @param customerId customer record that needs to be edited
+     */
+    public CustomerForm(int customerId) {
+        initComponents();
+        customizelayout(customerId);
+        setLocationRelativeTo(null);
+        controller = new CustomerFormController();
     }
 
     /**
@@ -32,8 +51,8 @@ public class CustomerForm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btn_operation = new javax.swing.JButton();
+        btn_cancel = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -75,7 +94,7 @@ public class CustomerForm extends javax.swing.JFrame {
         txt_card = new javax.swing.JTextField();
         jPanel19 = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(java.awt.Color.cyan);
         jPanel1.setLayout(new java.awt.GridLayout(2, 0));
@@ -95,27 +114,29 @@ public class CustomerForm extends javax.swing.JFrame {
         jPanel2.setBackground(java.awt.Color.pink);
         jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 40, 20));
 
-        jButton1.setBackground(java.awt.Color.yellow);
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButton1.setText("Operation");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_operation.setBackground(java.awt.Color.yellow);
+        btn_operation.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btn_operation.setText("Operation");
+        btn_operation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_operationActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1);
+        jPanel2.add(btn_operation);
 
-        jButton2.setBackground(java.awt.Color.yellow);
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButton2.setText("Cancel");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btn_cancel.setBackground(java.awt.Color.yellow);
+        btn_cancel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btn_cancel.setText("Cancel");
+        btn_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btn_cancelActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton2);
+        jPanel2.add(btn_cancel);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
+
+        jTabbedPane1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
 
         jPanel3.setLayout(new java.awt.GridLayout(8, 0, 0, 15));
         jPanel3.add(jPanel5);
@@ -268,13 +289,13 @@ public class CustomerForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
         this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btn_cancelActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btn_operationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_operationActionPerformed
+        doOperation();
+    }//GEN-LAST:event_btn_operationActionPerformed
 
     /**
      * @param args the command line arguments
@@ -311,9 +332,81 @@ public class CustomerForm extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Perform add/edit operation
+     */
+    private void doOperation() {
+        int customerId = 0;
+        try { // if customerId is not an int value
+            customerId = Integer.parseInt(txt_customerId.getText());
+        } catch (Exception e) {
+            customerId = 0;
+        }
+        String name = txt_name.getText();
+        String birthdate = txt_birthdate.getText();
+        String address = txt_address.getText();
+        String mobile = txt_mobile.getText();
+        String email = txt_email.getText();
+        String type = txt_type.getText();
+        String accountNo = txt_accountNo.getText();
+        String sortCode = txt_sortCode.getText();
+        String balance = txt_balance.getText();
+        String card = txt_card.getText();
+
+        // check for empty fields
+        if (!name.equals("") && !birthdate.equals("") && !address.equals("")
+                && !mobile.equals("") && !email.equals("") && !type.equals("")
+                && !accountNo.equals("") && !sortCode.equals("") && !balance.equals("")
+                && !card.equals("")) {
+            if (controller.syncEmployeeAddEditOperation(customerId, name, birthdate,
+                    address, mobile, email, type, accountNo, sortCode, balance, card)) {
+                showMsg(0, 0, "Record successfully added/edited");
+                this.dispose();
+            } else {
+                showMsg(2, 2, "Something went wrong");
+            }
+        } else {
+            showMsg(1, 1, "Please make sure you have filled all the fields");
+        }
+    }
+
+    /**
+     * Customize layout according to add operation
+     */
+    private void customizelayout() {
+        this.setTitle("Add new customer");
+        btn_operation.setText("Add");
+        txt_customerId.setText("N/A");
+    }
+
+    /**
+     * Customize layout according to edit operation
+     *
+     * @param customerId customerId of the record that needs to be edited
+     */
+    private void customizelayout(int customerId) {
+        this.setTitle("Edit customer");
+        btn_operation.setText("Edit");
+        String[] customerData = {"8", "Gayashan Kalhara",
+            "2016/04/25", "Gampaha", "077-0548334", "gayashanbc@gmail.com", "Premium", "8440049640",
+            "4", "10000 LKR", "4584 4512 3698 7777"};
+        txt_customerId.setText(customerData[0]);
+        txt_name.setText(customerData[1]);
+        txt_birthdate.setText(customerData[2]);
+        txt_address.setText(customerData[3]);
+        txt_mobile.setText(customerData[4]);
+        txt_email.setText(customerData[5]);
+        txt_type.setText(customerData[6]);
+        txt_accountNo.setText(customerData[7]);
+        txt_sortCode.setText(customerData[8]);
+        txt_balance.setText(customerData[9]);
+        txt_card.setText(customerData[10]);
+
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btn_cancel;
+    private javax.swing.JButton btn_operation;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

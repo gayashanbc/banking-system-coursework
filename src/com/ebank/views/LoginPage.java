@@ -7,7 +7,6 @@ package com.ebank.views;
 
 import com.ebank.controllers.LoginPageController;
 import static com.ebank.main.CommonFunctions.showMsg;
-import java.util.Arrays;
 
 /**
  *
@@ -223,7 +222,7 @@ public class LoginPage extends javax.swing.JFrame {
 
         if (!username.equals("") && !password.equals("")) {
             if (controller.checkLogin(username, password)) {
-                new CustomerPage().setVisible(true);
+                new CustomerPage(username).setVisible(true);
                 this.dispose();
             } else { // invalid credentials
                 showMsg(2, 2, "Invalid username or password");

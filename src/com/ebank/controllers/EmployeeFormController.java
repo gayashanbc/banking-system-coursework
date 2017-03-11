@@ -21,7 +21,8 @@ public class EmployeeFormController {
      * @param password password of the new/existing employee
      * @return result of the operation
      */
-    public boolean syncEmployeeAddEditOperation(int employeeId, String name, String position, String username, String password) {
+    public boolean syncEmployeeAddEditOperation(int employeeId, String name,
+            String position, String username, String password) {
         boolean isOperationSuccess = true;
         return isOperationSuccess;
     }

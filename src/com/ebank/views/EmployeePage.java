@@ -8,13 +8,7 @@ package com.ebank.views;
 import com.ebank.controllers.EmployeePageController;
 import static com.ebank.main.CommonFunctions.showMsg;
 import static com.ebank.main.CommonFunctions.isValidRowSelection;
-import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -126,38 +120,7 @@ public class EmployeePage extends javax.swing.JFrame {
         jtb_employeeList.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jtb_employeeList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "#", "Name"

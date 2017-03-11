@@ -30,7 +30,7 @@ public class EmployeeForm extends javax.swing.JFrame {
     /**
      * Overloaded constructor for edit operation
      *
-     * @param employeeId optional parameter (default = 0)
+     * @param employeeId employee record that needs to be edited
      */
     public EmployeeForm(int employeeId) {
         initComponents();
@@ -235,7 +235,7 @@ public class EmployeeForm extends javax.swing.JFrame {
         String name = txt_name.getText();
         String position = txt_position.getText();
         String username = txt_username.getText();
-        String password = Arrays.toString(txt_password.getPassword());
+        String password = String.copyValueOf(txt_password.getPassword());
 
         // check for empty fields
         if (!name.equals("") && !position.equals("") && !username.equals("") && !password.equals("")) {

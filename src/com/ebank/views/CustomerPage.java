@@ -5,18 +5,33 @@
  */
 package com.ebank.views;
 
+import com.ebank.controllers.CustomerPageController;
+import static com.ebank.main.CommonFunctions.isValidRowSelection;
+import static com.ebank.main.CommonFunctions.showMsg;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Shan
  */
 public class CustomerPage extends javax.swing.JFrame {
 
+    private CustomerPageController controller;
+    private DefaultTableModel customerTableModel;
+    private String loggedInUser;
+
     /**
      * Creates new form CustomerPage
+     *
+     * @param loggedInUser currently logged in user's username
      */
-    public CustomerPage() {
+    public CustomerPage(String loggedInUser) {
         initComponents();
         setLocationRelativeTo(null);
+        controller = new CustomerPageController();
+        customerTableModel = (DefaultTableModel) jtb_customerList.getModel();
+        refreshCustomerRecords();
+        this.loggedInUser = loggedInUser;
     }
 
     /**
@@ -31,7 +46,7 @@ public class CustomerPage extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        btn_logout = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         btn_add = new javax.swing.JButton();
         btn_edit = new javax.swing.JButton();
@@ -40,7 +55,7 @@ public class CustomerPage extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jtb_customerList = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Customer List Page");
 
         jPanel1.setBackground(java.awt.Color.cyan);
@@ -54,10 +69,15 @@ public class CustomerPage extends javax.swing.JFrame {
         jPanel4.setBackground(java.awt.Color.cyan);
         jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 10));
 
-        jButton2.setBackground(java.awt.Color.orange);
-        jButton2.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
-        jButton2.setText("Logout");
-        jPanel4.add(jButton2);
+        btn_logout.setBackground(java.awt.Color.orange);
+        btn_logout.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        btn_logout.setText("Logout");
+        btn_logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_logoutActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btn_logout);
 
         jPanel1.add(jPanel4);
 
@@ -69,6 +89,11 @@ public class CustomerPage extends javax.swing.JFrame {
         btn_add.setBackground(java.awt.Color.yellow);
         btn_add.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btn_add.setText("Add");
+        btn_add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_addActionPerformed(evt);
+            }
+        });
         jPanel2.add(btn_add);
 
         btn_edit.setBackground(java.awt.Color.yellow);
@@ -90,39 +115,7 @@ public class CustomerPage extends javax.swing.JFrame {
 
         jtb_customerList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Name", "Account No"
@@ -146,49 +139,63 @@ public class CustomerPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
-        new CustomerForm().setVisible(true);
+        prepareEditCustomer();
     }//GEN-LAST:event_btn_editActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CustomerPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CustomerPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CustomerPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CustomerPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void btn_logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logoutActionPerformed
+        if (controller.logout(loggedInUser)) {
+            new LoginPage().setVisible(true);
+            this.dispose();
         }
-        //</editor-fold>
+    }//GEN-LAST:event_btn_logoutActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CustomerPage().setVisible(true);
+    private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
+        new CustomerForm().setVisible(true);
+    }//GEN-LAST:event_btn_addActionPerformed
+
+    /**
+     * Delete a record from the customer table model
+     */
+    private void deleteCustomer() {
+        if (isValidRowSelection(jtb_customerList)) {
+            int customerId = (int) customerTableModel.getValueAt(jtb_customerList.getSelectedRow(), 0);
+            if (controller.syncCustomerDeleteOperation(customerId)) {
+                customerTableModel.removeRow(jtb_customerList.getSelectedRow());
+                showMsg(0, 0, "Customer record deleted");
+            } else {
+                showMsg(2, 2, "Unable to delete the record");
             }
-        });
+        }
+    }
+
+    /**
+     * Prepare a record to be edited from the table
+     */
+    private void prepareEditCustomer() {
+        if (isValidRowSelection(jtb_customerList)) {
+            int customerId = 0;
+            new CustomerForm(customerId).setVisible(true);
+        }
+    }
+
+    /**
+     * Synchronize current customer data from the web service
+     */
+    private void refreshCustomerRecords() {
+        String[][] customerObjects = controller.getCustomersData();
+        for (String[] customerObject : customerObjects) {
+            Object[] test = new Object[2];
+            test[0] = customerObject[1];
+            test[1] = customerObject[7];
+            customerTableModel.addRow(test);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_add;
     private javax.swing.JButton btn_delete;
     private javax.swing.JButton btn_edit;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btn_logout;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
