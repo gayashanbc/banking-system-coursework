@@ -142,7 +142,7 @@ public class EmployeePage extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_goBackActionPerformed
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
-        new EmployeeForm().setVisible(true);
+        new EmployeeForm(this).setVisible(true);
     }//GEN-LAST:event_btn_addActionPerformed
 
     private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
@@ -153,40 +153,6 @@ public class EmployeePage extends javax.swing.JFrame {
         prepareEditEmployee();
     }//GEN-LAST:event_btn_editActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EmployeePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EmployeePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EmployeePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EmployeePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new EmployeePage().setVisible(true);
-            }
-        });
-    }
 
     /**
      * Delete a record from the employee table model
@@ -195,8 +161,9 @@ public class EmployeePage extends javax.swing.JFrame {
         if (isValidRowSelection(jtb_employeeList)) {
             int employeeId = (int) employeeTableModel.getValueAt(jtb_employeeList.getSelectedRow(), 0);
             if (controller.syncEmployeeDeleteOperation(employeeId)) {
-                employeeTableModel.removeRow(jtb_employeeList.getSelectedRow());
                 showMsg(0, 0, "Employee record deleted");
+                this.dispose();
+                new EmployeePage().setVisible(true);
             } else {
                 showMsg(2, 2, "Unable to delete the record");
             }
@@ -209,7 +176,7 @@ public class EmployeePage extends javax.swing.JFrame {
     private void prepareEditEmployee() {
         if (isValidRowSelection(jtb_employeeList)) {
             int employeeId = (int) employeeTableModel.getValueAt(jtb_employeeList.getSelectedRow(), 0);
-            new EmployeeForm(employeeId).setVisible(true);
+            new EmployeeForm(employeeId,this).setVisible(true);
         }
     }
 

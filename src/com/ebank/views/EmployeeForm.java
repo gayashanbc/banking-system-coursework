@@ -15,28 +15,35 @@ import java.util.Arrays;
  */
 public class EmployeeForm extends javax.swing.JFrame {
 
+    EmployeePage parent;
     private EmployeeFormController controller;
 
     /**
      * Default constructor (for add operation)
+     *
+     * @param parent parent window
      */
-    public EmployeeForm() {
+    public EmployeeForm(EmployeePage parent) {
+        controller = new EmployeeFormController();
         initComponents();
         customizelayout();
         setLocationRelativeTo(null);
-        controller = new EmployeeFormController();
+        this.parent = parent;
     }
 
     /**
      * Overloaded constructor for edit operation
      *
      * @param employeeId employee record that needs to be edited
+     * @param parent parent window
      */
-    public EmployeeForm(int employeeId) {
+    public EmployeeForm(int employeeId, EmployeePage parent) {
+        controller = new EmployeeFormController();
         initComponents();
         customizelayout(employeeId);
         setLocationRelativeTo(null);
-        controller = new EmployeeFormController();
+        this.parent = parent;
+
     }
 
     /**
@@ -242,6 +249,8 @@ public class EmployeeForm extends javax.swing.JFrame {
             if (controller.syncEmployeeAddEditOperation(employeeId, name, position, username, password)) {
                 showMsg(0, 0, "Record successfully added/edited");
                 this.dispose();
+                parent.dispose();
+                new EmployeePage().setVisible(true);
             } else {
                 showMsg(2, 2, "Something went wrong");
             }
@@ -267,7 +276,7 @@ public class EmployeeForm extends javax.swing.JFrame {
     private void customizelayout(int employeeId) {
         this.setTitle("Edit employee");
         btn_operation.setText("Edit");
-        String[] employeeData = {"8", "Gayashan Kalhara", "Manager", "gayashanbc", "1128"};
+        String[] employeeData = controller.getEmployeeData(employeeId);
         txt_employeeId.setText(employeeData[0]);
         txt_name.setText(employeeData[1]);
         txt_position.setText(employeeData[2]);

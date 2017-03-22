@@ -6,15 +6,17 @@
 package com.ebank.controllers;
 
 import com.ebank.models.Employee;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Shan
  */
 public class EmployeePageController {
-
+    
     private Employee employee;
-
+    
     public EmployeePageController() {
         employee = new Employee();
     }
@@ -26,8 +28,7 @@ public class EmployeePageController {
      * @return result of the operation
      */
     public boolean syncEmployeeDeleteOperation(int employeeId) {
-        boolean isOperationSuccess = true;
-        return isOperationSuccess;
+        return deleteEmployee(employeeId);
     }
 
     /**
@@ -36,26 +37,28 @@ public class EmployeePageController {
      * @return employees data records
      */
     public String[][] getEmployeesData() {
-        String[][] employeesData = new String[3][5];
-        employeesData[0][0] = 1 + "";
-        employeesData[0][1] = "Gayashan Bombuwala";
-        employeesData[0][2] = "Project Manager";
-        employeesData[0][3] = "gayashanbc";
-        employeesData[0][4] = "1128";
-
-        employeesData[1][0] = 2 + "";
-        employeesData[1][1] = "Mewantha Bandara";
-        employeesData[1][2] = "Scrum Master";
-        employeesData[1][3] = "mewa.bandara";
-        employeesData[1][4] = "rgrg";
-
-        employeesData[2][0] = 3 + "";
-        employeesData[2][1] = "Achintha Premarathne";
-        employeesData[2][2] = "Technical Lead";
-        employeesData[2][3] = "achinthaprem";
-        employeesData[2][4] = "11ththt28";
-
+        ArrayList<String> DB_Records = (ArrayList<String>) getEmployees();
+        String[][] employeesData = new String[DB_Records.size()][5];
+        
+        for (int i = 0; i < DB_Records.size(); i++) {
+            String[] tempRecord = DB_Records.get(i).split(";");
+            employeesData[i][0] = tempRecord[0];
+            employeesData[i][1] = tempRecord[1];
+        }
+        
         return employeesData;
     }
-
+    
+    private static boolean deleteEmployee(int employeeId) {
+        ebank.employee.EmployeeService_Service service = new ebank.employee.EmployeeService_Service();
+        ebank.employee.EmployeeService port = service.getEmployeeServicePort();
+        return port.deleteEmployee(employeeId);
+    }
+    
+    private static java.util.List<java.lang.String> getEmployees() {
+        ebank.employee.EmployeeService_Service service = new ebank.employee.EmployeeService_Service();
+        ebank.employee.EmployeeService port = service.getEmployeeServicePort();
+        return port.getEmployees();
+    }
+    
 }

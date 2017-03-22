@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://customer.ebank/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://customer.ebank/">
+
+<xs:element name="addEditCustomer" type="tns:addEditCustomer"/>
+
+<xs:element name="addEditCustomerResponse" type="tns:addEditCustomerResponse"/>
+
+<xs:element name="deleteCustomer" type="tns:deleteCustomer"/>
+
+<xs:element name="deleteCustomerResponse" type="tns:deleteCustomerResponse"/>
+
+<xs:element name="getCustomer" type="tns:getCustomer"/>
+
+<xs:element name="getCustomerResponse" type="tns:getCustomerResponse"/>
+
+<xs:element name="getCustomers" type="tns:getCustomers"/>
+
+<xs:element name="getCustomersResponse" type="tns:getCustomersResponse"/>
+
+<xs:complexType name="deleteCustomer">
+<xs:sequence>
+<xs:element name="accountNo" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteCustomerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getCustomer">
+<xs:sequence>
+<xs:element name="customerId" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getCustomerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addEditCustomer">
+<xs:sequence>
+<xs:element name="customerId" type="xs:int"/>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+<xs:element name="birthdate" type="xs:string" minOccurs="0"/>
+<xs:element name="address" type="xs:string" minOccurs="0"/>
+<xs:element name="mobile" type="xs:string" minOccurs="0"/>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+<xs:element name="type" type="xs:string" minOccurs="0"/>
+<xs:element name="accountNo" type="xs:string" minOccurs="0"/>
+<xs:element name="sortCode" type="xs:string" minOccurs="0"/>
+<xs:element name="balance" type="xs:string" minOccurs="0"/>
+<xs:element name="card" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addEditCustomerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getCustomers">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getCustomersResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

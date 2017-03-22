@@ -18,7 +18,7 @@ public class CustomerPage extends javax.swing.JFrame {
 
     private CustomerPageController controller;
     private DefaultTableModel customerTableModel;
-    private String loggedInUser;
+    public static String loggedInUser;
 
     /**
      * Creates new form CustomerPage
@@ -32,6 +32,7 @@ public class CustomerPage extends javax.swing.JFrame {
         customerTableModel = (DefaultTableModel) jtb_customerList.getModel();
         refreshCustomerRecords();
         this.loggedInUser = loggedInUser;
+        btn_logout.setText("Logout: " + loggedInUser);
     }
 
     /**
@@ -109,10 +110,16 @@ public class CustomerPage extends javax.swing.JFrame {
         btn_delete.setBackground(java.awt.Color.yellow);
         btn_delete.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btn_delete.setText("Delete");
+        btn_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_deleteActionPerformed(evt);
+            }
+        });
         jPanel2.add(btn_delete);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
+        jtb_customerList.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jtb_customerList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -146,22 +153,32 @@ public class CustomerPage extends javax.swing.JFrame {
         if (controller.logout(loggedInUser)) {
             new LoginPage().setVisible(true);
             this.dispose();
+            showMsg(0, 0, "Successfully logged out");
+        } else {
+            showMsg(2, 2, "Logout failed!");
+            this.dispose();
         }
     }//GEN-LAST:event_btn_logoutActionPerformed
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
-        new CustomerForm().setVisible(true);
+        new CustomerForm(this).setVisible(true);
     }//GEN-LAST:event_btn_addActionPerformed
+
+    private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
+        deleteCustomer();
+    }//GEN-LAST:event_btn_deleteActionPerformed
 
     /**
      * Delete a record from the customer table model
      */
     private void deleteCustomer() {
         if (isValidRowSelection(jtb_customerList)) {
-            int customerId = (int) customerTableModel.getValueAt(jtb_customerList.getSelectedRow(), 0);
-            if (controller.syncCustomerDeleteOperation(customerId)) {
+            String accountNo =  (String) customerTableModel.getValueAt(jtb_customerList.getSelectedRow(), 1);
+            if (controller.syncCustomerDeleteOperation(accountNo)) {
                 customerTableModel.removeRow(jtb_customerList.getSelectedRow());
                 showMsg(0, 0, "Customer record deleted");
+                this.dispose();
+                new CustomerPage(loggedInUser).setVisible(true);
             } else {
                 showMsg(2, 2, "Unable to delete the record");
             }
@@ -173,8 +190,8 @@ public class CustomerPage extends javax.swing.JFrame {
      */
     private void prepareEditCustomer() {
         if (isValidRowSelection(jtb_customerList)) {
-            int customerId = 0;
-            new CustomerForm(customerId).setVisible(true);
+            String accountNo= (String) customerTableModel.getValueAt(jtb_customerList.getSelectedRow(), 1);
+            new CustomerForm(accountNo,this).setVisible(true);
         }
     }
 
@@ -185,8 +202,8 @@ public class CustomerPage extends javax.swing.JFrame {
         String[][] customerObjects = controller.getCustomersData();
         for (String[] customerObject : customerObjects) {
             Object[] test = new Object[2];
-            test[0] = customerObject[1];
-            test[1] = customerObject[7];
+            test[0] = customerObject[0];
+            test[1] = customerObject[1];
             customerTableModel.addRow(test);
         }
     }

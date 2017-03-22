@@ -19,10 +19,13 @@ public class LoginPageController {
      * @return validity of the username and password
      */
     public boolean checkLogin(String username, String password) {
-        boolean isValid = false;
-        if (username.equals("shan") && password.equals("1128")) {
-            isValid = true;
-        }
-        return isValid;
+        return validateLogin(username, password);
     }
+
+    private static boolean validateLogin(java.lang.String username, java.lang.String password) {
+        ebank.employee.EmployeeService_Service service = new ebank.employee.EmployeeService_Service();
+        ebank.employee.EmployeeService port = service.getEmployeeServicePort();
+         return port.validateLogin(username, password);
+    }
+
 }

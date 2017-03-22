@@ -7,6 +7,7 @@ package com.ebank.controllers;
 
 import com.ebank.models.Customer;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -30,9 +31,8 @@ public class CustomerPageController {
      * @param customerId employee's Id that needs to be deleted
      * @return result of the operation
      */
-    public boolean syncCustomerDeleteOperation(int customerId) {
-        boolean isOperationSuccess = true;
-        return isOperationSuccess;
+    public boolean syncCustomerDeleteOperation(String accountNo) {
+        return deleteCustomer(accountNo);
     }
 
     /**
@@ -41,22 +41,16 @@ public class CustomerPageController {
      * @return customer data records
      */
     public String[][] getCustomersData() {
-        String[][] customersData = new String[5][11];
-        for (int i = 0; i < 5; i++) {
-            customersData[i][0] = (i + 1) + "";
-            customersData[i][1] = "Gayashan Bombuwala";
-            customersData[i][2] = LocalDate.now() + "";
-            customersData[i][3] = "No. 284/ Gampaha";
-            customersData[i][4] = "077-0548334";
-            customersData[i][5] = "gayashanbc@gmail.com";
-            customersData[i][6] = "Premium";
-            customersData[i][7] = "8440049640";
-            customersData[i][8] = "5";
-            customersData[i][9] = "10000 LKR";
-            customersData[i][10] = "4587 4585 2548 2548";
+        ArrayList<String> DB_Records = (ArrayList<String>) getCustomers();
+        String[][] customerData = new String[DB_Records.size()][5];
+
+        for (int i = 0; i < DB_Records.size(); i++) {
+            String[] tempRecord = DB_Records.get(i).split(";");
+            customerData[i][0] = tempRecord[0];
+            customerData[i][1] = tempRecord[1];
         }
 
-        return customersData;
+        return customerData;
     }
 
     /**
@@ -66,7 +60,24 @@ public class CustomerPageController {
      * @return
      */
     public boolean logout(String username) {
-        boolean wasSuccessful = true;
-        return wasSuccessful;
+        return logoutCheck(username);
+    }
+
+    private static boolean logoutCheck(java.lang.String username) {
+        ebank.employee.EmployeeService_Service service = new ebank.employee.EmployeeService_Service();
+        ebank.employee.EmployeeService port = service.getEmployeeServicePort();
+        return port.logout(username);
+    }
+
+    private static java.util.List<java.lang.String> getCustomers() {
+        ebank.customer.CustomerService_Service service = new ebank.customer.CustomerService_Service();
+        ebank.customer.CustomerService port = service.getCustomerServicePort();
+        return port.getCustomers();
+    }
+
+    private static boolean deleteCustomer(java.lang.String accountNo) {
+        ebank.customer.CustomerService_Service service = new ebank.customer.CustomerService_Service();
+        ebank.customer.CustomerService port = service.getCustomerServicePort();
+        return port.deleteCustomer(accountNo);
     }
 }

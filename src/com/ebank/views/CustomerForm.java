@@ -14,28 +14,34 @@ import static com.ebank.main.CommonFunctions.showMsg;
  */
 public class CustomerForm extends javax.swing.JFrame {
 
+    private CustomerPage parent;
     private CustomerFormController controller;
 
     /**
      * Default constructor (for add operation)
+     *
+     * @param parent parent windows
      */
-    public CustomerForm() {
+    public CustomerForm(CustomerPage parent) {
+        controller = new CustomerFormController();
         initComponents();
         setLocationRelativeTo(null);
         customizelayout();
-        controller = new CustomerFormController();
+        this.parent = parent;
     }
 
     /**
      * Overloaded constructor for edit operation
      *
-     * @param customerId customer record that needs to be edited
+     * @param accountNo customer record that needs to be edited
+     * @param parent parent windows
      */
-    public CustomerForm(int customerId) {
-        initComponents();
-        customizelayout(customerId);
-        setLocationRelativeTo(null);
+    public CustomerForm(String accountNo, CustomerPage parent) {
         controller = new CustomerFormController();
+        initComponents();
+        customizelayout(accountNo);
+        setLocationRelativeTo(null);
+        this.parent = parent;
     }
 
     /**
@@ -298,41 +304,6 @@ public class CustomerForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_operationActionPerformed
 
     /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CustomerForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CustomerForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CustomerForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CustomerForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CustomerForm().setVisible(true);
-            }
-        });
-    }
-
-    /**
      * Perform add/edit operation
      */
     private void doOperation() {
@@ -358,10 +329,13 @@ public class CustomerForm extends javax.swing.JFrame {
                 && !mobile.equals("") && !email.equals("") && !type.equals("")
                 && !accountNo.equals("") && !sortCode.equals("") && !balance.equals("")
                 && !card.equals("")) {
-            if (controller.syncEmployeeAddEditOperation(customerId, name, birthdate,
+            if (controller.syncCustomerAddEditOperation(customerId, name, birthdate,
                     address, mobile, email, type, accountNo, sortCode, balance, card)) {
                 showMsg(0, 0, "Record successfully added/edited");
                 this.dispose();
+                String loggedInUser = parent.loggedInUser;
+                parent.dispose();
+                new CustomerPage(loggedInUser).setVisible(true);
             } else {
                 showMsg(2, 2, "Something went wrong");
             }
@@ -382,14 +356,12 @@ public class CustomerForm extends javax.swing.JFrame {
     /**
      * Customize layout according to edit operation
      *
-     * @param customerId customerId of the record that needs to be edited
+     * @param accountNo accountNo of the record that needs to be edited
      */
-    private void customizelayout(int customerId) {
+    private void customizelayout(String accountNo) {
         this.setTitle("Edit customer");
         btn_operation.setText("Edit");
-        String[] customerData = {"8", "Gayashan Kalhara",
-            "2016/04/25", "Gampaha", "077-0548334", "gayashanbc@gmail.com", "Premium", "8440049640",
-            "4", "10000 LKR", "4584 4512 3698 7777"};
+        String[] customerData = controller.getCustomerData(accountNo);
         txt_customerId.setText(customerData[0]);
         txt_name.setText(customerData[1]);
         txt_birthdate.setText(customerData[2]);
