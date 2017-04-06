@@ -3,8 +3,8 @@
   <services/>
   <clients>
     <client name="EmployeeService">
-      <wsdl-url>http://localhost:20061/ebank_ws/EmployeeService?wsdl</wsdl-url>
-      <local-wsdl-file>localhost_20061/ebank_ws/EmployeeService.wsdl</local-wsdl-file>
+      <wsdl-url>http://localhost:8282/ebank_ws/EmployeeService?wsdl</wsdl-url>
+      <local-wsdl-file>localhost_8282/ebank_ws/EmployeeService.wsdl</local-wsdl-file>
       <package-name>ebank.employee</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <wsimport-options>
@@ -22,7 +22,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://localhost:20061/ebank_ws/EmployeeService?wsdl</wsimport-option-value>
+          <wsimport-option-value>http://localhost:8282/ebank_ws/EmployeeService?wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>
@@ -35,8 +35,8 @@
       </wsimport-options>
     </client>
     <client name="CustomerService">
-      <wsdl-url>http://localhost:20061/ebank_ws/CustomerService?wsdl</wsdl-url>
-      <local-wsdl-file>localhost_20061/ebank_ws/CustomerService.wsdl</local-wsdl-file>
+      <wsdl-url>http://localhost:8282/ebank_ws/CustomerService?wsdl</wsdl-url>
+      <local-wsdl-file>localhost_8282/ebank_ws/CustomerService.wsdl</local-wsdl-file>
       <package-name>ebank.customer</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <wsimport-options>
@@ -54,7 +54,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://localhost:20061/ebank_ws/CustomerService?wsdl</wsimport-option-value>
+          <wsimport-option-value>http://localhost:8282/ebank_ws/CustomerService?wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>

